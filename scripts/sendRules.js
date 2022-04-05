@@ -24,7 +24,7 @@ const rules = {
     {
       title: '📋 Rules',
       description:
-        "**Rule 1:** Follow Discord's [Terms of Service](https://discord.com/terms) and [Community Guidelines](https://discord.com/guidelines).\n\n**Rule 2:** No spamming, misusing channels, or advertising of unrelated content. This includes messages sent in DMs.\n\n**Rule 3:** No discriminative messages. Politics and drama have no place in this server. Please do not bring in drama from other servers.\n\n**Rule 4:** Please be helpful and supportive! Harassment of any kind will not be tolerated.\n\n**Rule 6:** Follow and respect staff members and their instructions.\n\n**Additional Notes:**\n- This server is English-only, so please speak English to the best of your ability.\n- Feel free to DM a mod if you notice an incident like this go unnoticed, but leave moderation to the moderators.",
+        "**Rule 1:** Follow Discord's [Terms of Service](https://discord.com/terms) and [Community Guidelines](https://discord.com/guidelines).\n\n**Rule 2:** No spamming, misusing channels, or advertising of unrelated content. This includes messages sent in DMs.\n\n**Rule 3:** No discriminative messages. Politics and drama have no place in this server. Please do not bring in drama from other servers.\n\n**Rule 4:** Please be helpful and supportive! Harassment of any kind will not be tolerated.\n\n**Rule 5:** Follow and respect staff members and their instructions.\n\n**Additional Notes:**\n- This server is English-only, so please speak English to the best of your ability.\n- Feel free to DM a mod if you notice an incident like this go unnoticed, but leave moderation to the moderators.",
       color: 5793266,
     },
   ],
