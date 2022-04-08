@@ -52,6 +52,8 @@ const main = async () => {
   const db = new Database();
   await db.connect();
 
+  client.on('ready', () => console.log('Ready'));
+
   client.on('interactionCreate', async i => {
     if (!i.inGuild() || !i.member) {
       return;
@@ -185,6 +187,89 @@ const main = async () => {
                     : msg.join('\n\n'),
               });
             }
+          }
+        }
+        break;
+      }
+
+      case 'APPLICATION_COMMAND': {
+        if (!i.isCommand()) {
+          return;
+        }
+
+        const cmdName = i.commandName;
+        switch (cmdName) {
+          case 'leaderboard': {
+            const leaderboardSize = 10;
+
+            const user = i.user.id;
+            const lead = await db.topNReferralsIncludingUser(
+              leaderboardSize,
+              user
+            );
+
+            const you = lead.find(l => l.userid === user);
+            let youGTlen = false;
+            if (you) {
+              if (you.position > leaderboardSize + 1) {
+                lead.pop();
+                youGTlen = true;
+              }
+            }
+
+            const msg = lead.map(u =>
+              u.userid === i.user.id
+                ? `**${u.position}. ${u.username}#${u.discriminator} (${u.referralcount})**`
+                : `**${u.position}.** ${u.username}#${u.discriminator} (${u.referralcount})`
+            );
+
+            if (you && youGTlen) {
+              msg.push(
+                '...',
+                `**${you.position}. ${you.username}#${you.discriminator} ${you.referralcount}**`
+              );
+            }
+
+            await i.reply({
+              content: msg.join('\n'),
+            });
+
+            break;
+          }
+
+          case 'position': {
+            const position = await db.getUserPosition(i.user.id);
+
+            if (!position) {
+              await i.reply({
+                content:
+                  ":x: You haven't signed the banner yet! Head over to <https://thankyoudiscord.com> to sign the banner, and try running the command again",
+                ephemeral: true,
+              });
+
+              return;
+            }
+
+            const pluralRules = new Intl.PluralRules('en-US', {
+              type: 'ordinal',
+            });
+            const ordinalToCardinal = (n: number) =>
+              n.toLocaleString() +
+              {
+                zero: '',
+                one: 'st',
+                two: 'nd',
+                few: 'rd',
+                other: 'th',
+                many: '',
+              }[pluralRules.select(n)];
+
+            await i.reply({
+              content: `You are **${ordinalToCardinal(
+                position
+              )}** on the banner`,
+            });
+            break;
           }
         }
       }
