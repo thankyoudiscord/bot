@@ -217,23 +217,25 @@ const main = async () => {
               }
             }
 
+            const nf = new Intl.NumberFormat('en-US', {useGrouping: true});
+
             const msg = lead.map(u =>
               u.userid === i.user.id
-                ? `**${u.position.toLocaleString()}. ${u.username}#${
+                ? `**${nf.format(u.position)}. ${u.username}#${
                     u.discriminator
-                  }** (**${u.referralcount}**)`
-                : `**${u.position.toLocaleString()}.** ${u.username}#${
+                  }** (**${nf.format(u.referralcount)}**)`
+                : `**${nf.format(u.position)}.** ${u.username}#${
                     u.discriminator
-                  } (**${u.referralcount}**)`
+                  } (**${nf.format(u.referralcount)}**)`
             );
 
             if (you) {
               if (youGTlen) {
                 msg.push(
                   '...',
-                  `**${you.position.toLocaleString()}. ${you.username}#${
+                  `**${nf.format(you.position)}. ${you.username}#${
                     you.discriminator
-                  }** (**${you.referralcount}**)`
+                  }** (**${nf.format(you.referralcount)}**)`
                 );
               }
             } else {
@@ -260,11 +262,12 @@ const main = async () => {
               return;
             }
 
-            const pluralRules = new Intl.PluralRules('en-US', {
+            const nf = new Intl.NumberFormat('en-US', {useGrouping: true});
+            const pr = new Intl.PluralRules('en-US', {
               type: 'ordinal',
             });
             const ordinalToCardinal = (n: number) =>
-              n.toLocaleString() +
+              nf.format(n) +
               {
                 zero: '',
                 one: 'st',
@@ -272,7 +275,7 @@ const main = async () => {
                 few: 'rd',
                 other: 'th',
                 many: '',
-              }[pluralRules.select(n)];
+              }[pr.select(n)];
 
             await i.reply({
               content: `You are **${ordinalToCardinal(
