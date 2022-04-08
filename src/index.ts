@@ -220,18 +220,22 @@ const main = async () => {
             const msg = lead.map(u =>
               u.userid === i.user.id
                 ? `**${u.position}. ${u.username}#${u.discriminator}** (**${u.referralcount}**)`
-                : `**${u.position}.** ${u.username}#${u.discriminator} (${u.referralcount})`
+                : `**${u.position}.** ${u.username}#${u.discriminator} (**${u.referralcount}**)`
             );
 
-            if (you && youGTlen) {
-              msg.push(
-                '...',
-                `**${you.position}. ${you.username}#${you.discriminator}** (**${you.referralcount}**)`
-              );
+            if (you) {
+              if (youGTlen) {
+                msg.push(
+                  '...',
+                  `**${you.position}. ${you.username}#${you.discriminator}** (**${you.referralcount}**)`
+                );
+              }
+            } else {
+              msg.push('', "You haven't referred anyone!");
             }
 
             await i.reply({
-              content: msg.join('\n'),
+              content: '**-- Referral Leaderboard --**\n' + msg.join('\n'),
             });
 
             break;
