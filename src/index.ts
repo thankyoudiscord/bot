@@ -219,14 +219,14 @@ const main = async () => {
 
             const msg = lead.map(u =>
               u.userid === i.user.id
-                ? `**${u.position}. ${u.username}#${u.discriminator} (${u.referralcount})**`
+                ? `**${u.position}. ${u.username}#${u.discriminator}** (**${u.referralcount}**)`
                 : `**${u.position}.** ${u.username}#${u.discriminator} (${u.referralcount})`
             );
 
             if (you && youGTlen) {
               msg.push(
                 '...',
-                `**${you.position}. ${you.username}#${you.discriminator} ${you.referralcount}**`
+                `**${you.position}. ${you.username}#${you.discriminator}** (**${you.referralcount}**)`
               );
             }
 
