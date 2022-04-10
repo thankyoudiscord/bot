@@ -1,4 +1,4 @@
-import {Client, GuildMember, Options} from 'discord.js';
+import {Client, GuildMember, GuildMemberRoleManager, Options} from 'discord.js';
 import 'dotenv/config';
 
 import {Database} from './db';
@@ -27,6 +27,24 @@ const ROLE_MENUS = [
     ],
   },
 ];
+
+const EPHEMERAL_BYPASS = [
+  '960941578803888169', // #bot
+
+  '929239747791052821', // &team
+  '936467538055921737', // &staff
+];
+
+const ephemeral = (
+  channel: string,
+  user: string,
+  roles: GuildMemberRoleManager
+) =>
+  !(
+    EPHEMERAL_BYPASS.includes(channel) ||
+    EPHEMERAL_BYPASS.includes(user) ||
+    roles.cache.some(r => EPHEMERAL_BYPASS.includes(r.id))
+  );
 
 const main = async () => {
   const client = new Client({
@@ -244,6 +262,11 @@ const main = async () => {
 
             await i.reply({
               content: '**-- Referral Leaderboard --**\n' + msg.join('\n'),
+              ephemeral: ephemeral(
+                i.channelId,
+                i.user.id,
+                i.member.roles as GuildMemberRoleManager
+              ),
             });
 
             break;
@@ -285,6 +308,11 @@ const main = async () => {
               content: `${
                 user?.id ? `**${user.tag}** is` : 'You are'
               } **${ordinalToCardinal(position)}** on the banner`,
+              ephemeral: ephemeral(
+                i.channelId,
+                i.user.id,
+                i.member.roles as GuildMemberRoleManager
+              ),
             });
             break;
           }
