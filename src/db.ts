@@ -86,8 +86,6 @@ export class Database {
       [userID]
     );
 
-    console.log(rows);
-
     return rowCount ? rows[0].position : undefined;
   }
 }

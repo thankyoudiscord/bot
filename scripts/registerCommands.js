@@ -1,5 +1,5 @@
 const {REST} = require('@discordjs/rest');
-const {Routes} = require('discord-api-types/v10');
+const {Routes, ApplicationCommandOptionType} = require('discord-api-types/v10');
 
 const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 const GUILD_ID = '929216713210355803';
@@ -17,7 +17,15 @@ const commands = [
   },
   {
     name: 'position',
-    description: 'Get your position on the banner',
+    description: "Get a user's position on the banner",
+    options: [
+      {
+        name: 'user',
+        description: 'The user whose position you would like to find',
+        required: false,
+        type: ApplicationCommandOptionType.User,
+      },
+    ],
   },
 ];
 

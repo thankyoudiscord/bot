@@ -250,12 +250,16 @@ const main = async () => {
           }
 
           case 'position': {
-            const position = await db.getUserPosition(i.user.id);
+            const user = i.options.getUser('user', false);
+            const userID = user?.id || i.user.id;
+
+            const position = await db.getUserPosition(userID);
 
             if (!position) {
               await i.reply({
-                content:
-                  ":x: You haven't signed the banner yet! Head over to <https://thankyoudiscord.com> to sign the banner, and try running the command again",
+                content: user?.id
+                  ? ':x: This user has not signed the banner'
+                  : ":x: You haven't signed the banner yet! Head over to <https://thankyoudiscord.com> to sign the banner, and try running the command again",
                 ephemeral: true,
               });
 
@@ -278,9 +282,9 @@ const main = async () => {
               }[pr.select(n)];
 
             await i.reply({
-              content: `You are **${ordinalToCardinal(
-                position
-              )}** on the banner`,
+              content: `${
+                user?.id ? `**${user.tag}** is` : 'You are'
+              } **${ordinalToCardinal(position)}** on the banner`,
             });
             break;
           }
